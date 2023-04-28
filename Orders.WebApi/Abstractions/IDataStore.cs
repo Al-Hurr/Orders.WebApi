@@ -11,7 +11,5 @@
         void Create<T>(T entity) where T : class, IBaseEntity;
 
         IQueryable<T> GetAll<T>() where T : class, IBaseEntity;
-
-        void SaveChanges();
     }
 }

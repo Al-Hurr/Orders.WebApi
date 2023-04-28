@@ -4,24 +4,15 @@ using Orders.WebApi.Domain.Orders.Services;
 
 namespace Orders.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly OrderService _service;
 
-        public OrderController(OrderService service)
+        public OrdersController(OrderService service)
         {
             _service = service;
-        }
-
-        [HttpGet("GetAll")]
-        [ProducesResponseType(typeof(IEnumerable<OrderGetModel>), 200)]
-        public IActionResult GetAll()
-        {
-            var foundItem = _service.GetAll();
-
-            return Ok(foundItem);
         }
 
         [HttpGet]
@@ -37,13 +28,8 @@ namespace Orders.WebApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] OrderCreateModel model)
         {
-            if(ModelState.IsValid)
-            {
-                var createdModel = _service.Create(model);
-                return Ok(createdModel);
-            }
-
-            return BadRequest(ModelState);
+            var createdModel = _service.Create(model);
+            return Ok(createdModel);
         }
 
         [HttpPut]
@@ -51,11 +37,11 @@ namespace Orders.WebApi.Controllers
         public IActionResult Put(Guid id, [FromBody] OrderEditModel model)
         {
             var updatedModel = _service.Update(id, model, out string errorMsg);
-            if(updatedModel == null)
+            if (updatedModel == null)
             {
                 return string.IsNullOrEmpty(errorMsg)
                     ? NotFound()
-                    : BadRequest(errorMsg);
+                    : BadRequest(new { Status = 400, Error = errorMsg });
             }
             return Ok(updatedModel);
         }
@@ -64,14 +50,14 @@ namespace Orders.WebApi.Controllers
         [Route("{id}")]
         public IActionResult Delete(Guid id)
         {
-            if(_service.TryRemove(id, out string errorMsg))
+            if (_service.TryRemove(id, out string errorMsg))
             {
                 return Ok();
             }
 
             return string.IsNullOrEmpty(errorMsg)
                 ? NotFound()
-                : BadRequest(errorMsg);
+                : BadRequest(new { Status = 400, Error = errorMsg });
         }
     }
 }

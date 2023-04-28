@@ -8,7 +8,6 @@ namespace Orders.WebApi.Domain.Orders.Models
     {
         public Guid Id { get; set; }
 
-        [Required]
         public IEnumerable<Product>? Lines { get; set; }
 
         public void ApplyToEntity(Order order)

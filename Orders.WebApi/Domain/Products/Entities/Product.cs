@@ -8,7 +8,6 @@ namespace Orders.WebApi.Domain.Products.Entities
         [Key]
         public Guid Id { get; set; }
 
-        [Range(1, 999_999)]
         public int Quantity { get; set; }
     }
 }

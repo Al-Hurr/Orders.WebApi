@@ -14,13 +14,6 @@ namespace Orders.WebApi.Domain.Orders.Services
             _dataStore = dataStore;
         }
 
-        public IEnumerable<Order> GetAll()
-        {
-            return _dataStore.GetAll<Order>()
-                .Include(x => x.Lines)
-                .ToList();
-        }
-
         public OrderGetModel Get(Guid id)
         {
             var entity = _dataStore.GetAll<Order>()
@@ -57,7 +50,7 @@ namespace Orders.WebApi.Domain.Orders.Services
 
             editModel.ApplyToEntity(entity);
 
-            _dataStore.SaveChanges();
+            _dataStore.Update(entity);
 
             return OrderGetModel.FromEntity(entity);
         }

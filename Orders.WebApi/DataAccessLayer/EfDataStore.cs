@@ -11,21 +11,16 @@ namespace Orders.WebApi.DataAccessLayer
             _dbContext = context;
         }
 
-        public void SaveChanges()
-        {
-            _dbContext.SaveChanges();
-        }
-
         void IDataStore.Create<T>(T entity)
         {
             _dbContext.Set<T>().Add(entity);
-            SaveChanges();
+            _dbContext.SaveChanges();
         }
 
         void IDataStore.Delete<T>(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            SaveChanges();
+            _dbContext.SaveChanges();
         }
 
         T IDataStore.Get<T>(Guid id)
@@ -41,7 +36,7 @@ namespace Orders.WebApi.DataAccessLayer
         void IDataStore.Update<T>(T entity)
         {
             _dbContext.Update(entity);
-            SaveChanges();
+            _dbContext.SaveChanges();
         }
     }
 }

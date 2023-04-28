@@ -1,5 +1,8 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Orders.WebApi.Abstractions;
+using Orders.WebApi.Common;
 using Orders.WebApi.DataAccessLayer;
 using Orders.WebApi.Domain.Orders.Services;
 
@@ -12,8 +15,16 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<IDataStore, EfDataStore>();
 builder.Services.AddTransient<OrderService>();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFluentValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
 
 var app = builder.Build();
+
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
 
 app.UseSwagger();
 

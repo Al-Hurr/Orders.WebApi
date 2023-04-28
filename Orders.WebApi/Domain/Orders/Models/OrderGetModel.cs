@@ -1,5 +1,4 @@
 ﻿using Orders.WebApi.Domain.Orders.Entities;
-using Orders.WebApi.Domain.Orders.Enums;
 using Orders.WebApi.Domain.Products.Entities;
 
 namespace Orders.WebApi.Domain.Orders.Models
@@ -8,7 +7,7 @@ namespace Orders.WebApi.Domain.Orders.Models
     {
         public Guid Id { get; set; }
 
-        public OrderStatus Status { get; set; }
+        public string Status { get; set; }
 
         public DateTime Created { get; set; }
 
@@ -19,7 +18,7 @@ namespace Orders.WebApi.Domain.Orders.Models
             return new OrderGetModel
             {
                 Id = order.Id,
-                Status = order.Status,
+                Status = order.Status.ToString(),
                 Created = order.Created,
                 Lines = order.Lines
             };
