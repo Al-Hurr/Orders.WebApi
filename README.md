@@ -8,7 +8,7 @@
  1) Скачиваем архив
 ![image](https://user-images.githubusercontent.com/65199312/235249810-287108c0-061a-4036-b310-6fe1920cb300.png)
 
- 2)Разархивируем и находим файл Orders.WebApi.exe по пути: 
+ 2) Разархивируем и находим файл Orders.WebApi.exe по пути: 
 C:\...\Orders.WebApi-master\Orders.WebApi-master\Orders.WebApi\bin\Release\net7.0\Orders.WebApi.exe
 
  3) Запускаем: при успешном старте выходит сообщение: "Application started. Press Ctrl+C to shut down."
