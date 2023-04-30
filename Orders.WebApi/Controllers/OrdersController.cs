@@ -39,10 +39,16 @@ namespace Orders.WebApi.Controllers
             var updatedModel = _service.Update(id, model, out string errorMsg);
             if (updatedModel == null)
             {
-                return string.IsNullOrEmpty(errorMsg)
-                    ? NotFound()
-                    : BadRequest(new { Status = 400, Error = errorMsg });
+                if (string.IsNullOrEmpty(errorMsg))
+                {
+                    return NotFound();
+                }
+
+                ModelState.AddModelError(nameof(OrderEditModel), errorMsg);
+
+                return ValidationProblem();
             }
+
             return Ok(updatedModel);
         }
 
@@ -55,9 +61,14 @@ namespace Orders.WebApi.Controllers
                 return Ok();
             }
 
-            return string.IsNullOrEmpty(errorMsg)
-                ? NotFound()
-                : BadRequest(new { Status = 400, Error = errorMsg });
+            if (string.IsNullOrEmpty(errorMsg))
+            {
+                return NotFound();
+            }
+
+            ModelState.AddModelError(string.Empty, errorMsg);
+
+            return ValidationProblem();
         }
     }
 }
